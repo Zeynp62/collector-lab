@@ -1,0 +1,75 @@
+{% extends 'base.html'%} {% block content %}
+
+<h1>Ring Details</h1>
+
+<div class="card">
+  <div class="card-content">
+    <div class="right">
+      {% load static %}
+      <img
+        src="{% static ring.image|cut:'main_app/static/' %}"
+        width="150px"
+        height="150px"
+      />
+    </div>
+    <span class="card-title"> {{ring.name}} </span>
+    <p>Size: {{ring.size}}</p>
+    <p>Description: {{ring.description}}</p>
+    {% if ring.price > 0 %}
+    <p>Price: {{ring.price}} BD</p>
+    {%else%}
+    <p>It was a gift</p>
+    {% endif %}
+    <div class="card-section">
+      <a href="{% url 'rings_update' ring.id %}">Edit</a>
+      <a href="{% url 'rings_delete' ring.id %}">Delete</a>
+    </div>
+  </div>
+</div>
+<div>
+  <div>
+    <form action="{% url 'add_polishing' ring.id %}" method="post">
+      {% csrf_token %} {{polishing_form.as_p}}
+      <input type="submit" class="btn" value="Add Polishing" />
+    </form>
+    <br />
+    {% if ring.pol_for_today %}
+    <div class="card-panel teal-text center-align">
+      {{ring.name}} is a shiny ring!
+    </div>
+    {% else %}
+    <div class="card-panel red-text center-align">
+      {{ring.name}} might need some polishing.
+    </div>
+    {% endif %}
+  </div>
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Polish</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for polishing in ring.polishing_set.all %}
+      <tr>
+        <td>{{polishing.date}}</td>
+        <td>{{polishing.get_polish_display}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<script>
+  var dateEl = document.getElementById('id_date')
+  M.Datepicker.init(dateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  })
+
+  let selectEl = document.getElementById('id_polish')
+  M.FormSelect.init(selectEl)
+</script>
+{% endblock %}

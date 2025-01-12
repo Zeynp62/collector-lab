@@ -12,3 +12,6 @@ footer.page-footer {
   padding-top: 0;
   text-align: right;
 }
+.nav-color {
+  background-color: rgb(105, 143, 79);
+}

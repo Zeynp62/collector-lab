@@ -1,0 +1,28 @@
+{% extends 'base.html'%} {% block content %}
+
+<h1>Ring Collection</h1>
+
+{% for ring in rings %}
+<div class="card">
+  <a href="{% url 'detail' ring.id %}">
+    <div class="card-content">
+      <div class="right">
+        {% load static %}
+        <img
+          src="{% static ring.image|cut:'main_app/static/' %}"
+          width="150px"
+          height="150px"
+        />
+      </div>
+      <span class="card-title"> {{ring.name}} </span>
+      <p>Size: {{ring.size}}</p>
+      <p>Description: {{ring.description}}</p>
+      {% if ring.price > 0 %}
+      <p>Price: {{ring.price}} BD</p>
+      {%else%}
+      <p>It was a gift</p>
+      {% endif %}
+    </div>
+  </a>
+</div>
+{% endfor %} {% endblock %}
