@@ -62,10 +62,10 @@ def add_polishing(request,ring_id):
         new_polishing.save()
     return redirect('detail',ring_id=ring_id)
 
-def assoc_toy(request,ring_id,band_id):
+def assoc_band(request,ring_id,band_id):
     Ring.objects.get(id=ring_id).bands.add(band_id)
     return redirect('detail',ring_id=ring_id)
 
-def unassoc_toy(request,ring_id,band_id):
+def unassoc_band(request,ring_id,band_id):
     Ring.objects.get(id=ring_id).bands.remove(band_id)
     return redirect('detail',ring_id=ring_id)

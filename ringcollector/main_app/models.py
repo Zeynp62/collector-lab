@@ -24,7 +24,8 @@ class Ring(models.Model):
     description=models.TextField(max_length=400)
     price=models.FloatField()
     image=models.ImageField(upload_to='main_app/static/uploads',default="")
-    
+    bands=models.ManyToManyField(Band)
+
     def get_absolute_url(self):
         return reverse('detail',kwargs={'ring_id':self.id})
     def __str__(self):

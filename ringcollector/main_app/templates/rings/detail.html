@@ -60,6 +60,53 @@
     </tbody>
   </table>
 </div>
+
+<hr />
+<div class="row">
+  <div class="col s6">
+    <h3>{{ ring.name }}</h3>
+    {% if ring.bands.count %} {% for band in ring.bands.all %}
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">
+          <span> Size {{band.size}} </span>
+          {{band.name}}
+        </span>
+        <div class="card-action">
+          <form action="{% url 'unassoc_band' ring.id band.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn">Remove</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %} {% else %}
+    <h5>No Bands</h5>
+    {% endif %}
+  </div>
+
+  <div class="col s6">
+    <h3>Available Bands</h3>
+    {% if bands.count %} {% for band in bands.all %}
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">
+          <span> Size {{band.size}} </span>{{band.name}}
+        </span>
+      </div>
+      <div class="card-action">
+        <form action="{% url 'assoc_band' ring.id band.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn">Add</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %} {% else %}
+    <h5>{{cat.name}} Already have all bands added</h5>
+    {% endif %}
+  </div>
+</div>
+
 <script>
   var dateEl = document.getElementById('id_date')
   M.Datepicker.init(dateEl, {
