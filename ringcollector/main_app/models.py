@@ -7,6 +7,17 @@ POLISH=(
     ('U','Ultrasonic Cleaner'),
     ('R','Rotary Tool')
 )
+
+class Band(models.Model):
+    name=models.CharField(max_length=50)
+    size=models.IntegerField()
+    
+    def __str__(self):
+        return self.name
+    
+    def get_absolute_url(self):
+        return reverse('bands_detail',kwargs={'pk':self.id})
+
 class Ring(models.Model):
     name=models.CharField(max_length=100)
     size=models.IntegerField()

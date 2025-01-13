@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import Ring
-from django.views.generic import CreateView,DeleteView,UpdateView
+from .models import Ring,Band
+from django.views.generic.edit import CreateView,DeleteView,UpdateView
+from django.views.generic import ListView,DetailView
 from .forms import PolishingForm
 
 # Create your views here.
@@ -18,6 +19,24 @@ class RingDelete(DeleteView):
     model=Ring
     success_url='/rings/'
 
+class BandList(ListView):
+    model=Band
+
+class BandDetail(DetailView):
+    model=Band
+
+class BandCreate(CreateView):
+    model=Band
+    fields='__all__'
+
+class BandUpdate(UpdateView):
+    model=Band
+    fields=['name','size']
+
+class BandDelete(DeleteView):
+    model=Band
+    success_url='/bands/'
+
 def home(request):
     return render(request,'home.html')
 def about(request):
@@ -29,7 +48,11 @@ def ring_index(request):
 def rings(request,ring_id):
     ring = Ring.objects.get(id=ring_id)
     polishing_form=PolishingForm()
-    return render(request,'rings/detail.html',{'ring':ring,'polishing_form':polishing_form})
+    
+    bands_ring_doesnt_have=Band.objects.exclude(id__in=ring.bands.all().values_list('id'))
+
+    
+    return render(request,'rings/detail.html',{'ring':ring,'polishing_form':polishing_form,'bands':bands_ring_doesnt_have})
 
 def add_polishing(request,ring_id):
     form =PolishingForm(request.POST)
@@ -37,4 +60,12 @@ def add_polishing(request,ring_id):
         new_polishing=form.save(commit=False)
         new_polishing.ring_id=ring_id
         new_polishing.save()
+    return redirect('detail',ring_id=ring_id)
+
+def assoc_toy(request,ring_id,band_id):
+    Ring.objects.get(id=ring_id).bands.add(band_id)
+    return redirect('detail',ring_id=ring_id)
+
+def unassoc_toy(request,ring_id,band_id):
+    Ring.objects.get(id=ring_id).bands.remove(band_id)
     return redirect('detail',ring_id=ring_id)

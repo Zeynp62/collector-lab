@@ -1,0 +1,14 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Band List</h1>
+
+{% for toy in toy_list %}
+<a href="{% url 'bands_detail' band.id %}">
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">{{ band.name }}</span>
+      <p>Size: {{ band.size }}</p>
+    </div>
+  </div>
+</a>
+{% endfor %} {% endblock %}
