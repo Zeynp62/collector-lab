@@ -18,6 +18,7 @@ urlpatterns=[
     path('bands/<int:pk>/delete/',views.BandDelete.as_view(),name='bands_delete'),
     #----Many to Many
     path('rings/<int:ring_id>/assoc_band/<int:band_id>/',views.assoc_band,name='assoc_band'),
-    path('rings/<int:ring_id>/unassoc_band/<int:band_id>/',views.unassoc_band,name='unassoc_band')
+    path('rings/<int:ring_id>/unassoc_band/<int:band_id>/',views.unassoc_band,name='unassoc_band'),
+    path('accounts/signup/',views.signup,name='signup')
     
 ]
