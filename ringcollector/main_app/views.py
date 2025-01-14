@@ -51,7 +51,8 @@ def about(request):
 @login_required
 def ring_index(request):
     #This will Select from main_app (Select * from main_app)
-    rings = Ring.objects.all()
+    # rings = Ring.objects.all()
+    rings=Ring.objects.filter(user=request.user)
     return render(request, 'rings/index.html',{'rings':rings})
 
 @login_required
