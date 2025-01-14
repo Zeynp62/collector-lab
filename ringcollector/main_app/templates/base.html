@@ -28,6 +28,7 @@
             <li>
               <a href="{% url 'about' %}">About</a>
             </li>
+            {% if user.is_authenticated %}
             <li>
               <a href="{% url 'rings_create' %}">Add a Ring</a>
             </li>
@@ -40,6 +41,21 @@
             <li>
               <a href ="{% url 'bands_index' %}"> View all bands</a></li>
             </li>
+            <li>
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit">Log Out</button>
+            </form>
+          </li>
+          Hi {{user.username}}
+          {% else %}
+          <li>
+            <a href="{% url 'signup' %}">Sign Up</a>
+          </li>
+          <li>
+            <a href="{% url 'login' %}">Log In</a>
+          </li>
+          {% endif %}
           </ul>
         </div>
       </nav>
